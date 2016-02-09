@@ -13,6 +13,7 @@
     </head>
     <body>
         <h1>Colección de Servicios Web simples</h1>
+        <p>Víctor M. Campuzano Pineda</p>
         <h2>CalculadoraService</h2>
         <p>
             Resuelve operaciones aritméticas simples: suma, resta, 
