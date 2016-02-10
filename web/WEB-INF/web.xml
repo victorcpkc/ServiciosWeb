@@ -8,9 +8,18 @@
         <servlet-class>com.sun.xml.ws.transport.http.servlet.WSServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
+    <servlet>
+        <servlet-name>IndiceMasaCorporal</servlet-name>
+        <servlet-class>com.sun.xml.ws.transport.http.servlet.WSServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
     <servlet-mapping>
         <servlet-name>CalculadoraService</servlet-name>
         <url-pattern>/CalculadoraService</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>IndiceMasaCorporal</servlet-name>
+        <url-pattern>/IndiceMasaCorporal</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

@@ -4,6 +4,9 @@
     <service name="CalculadoraService">
       <implementation-class>Math.CalculadoraService</implementation-class>
     </service>
+    <service name="IndiceMasaCorporal">
+      <implementation-class>salud.IndiceMasaCorporal</implementation-class>
+    </service>
   </services>
   <clients/>
   <jsr109>false</jsr109>
