@@ -24,5 +24,12 @@
         <a href="CalculadoraService?wsdl">
             WSDL
         </a>
+        <h2>IndiceMasaCorporal</h2>
+        <p>
+            Calculadora de índice de masa corporal simple.
+        </p>
+        <a href="IndiceMasaCorporal?wsdl">
+            WSDL
+        </a>
     </body>
 </html>
