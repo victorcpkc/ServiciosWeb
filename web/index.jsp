@@ -31,5 +31,12 @@
         <a href="IndiceMasaCorporal?wsdl">
             WSDL
         </a>
+        <h2>Oferta Educativa</h2>
+        <p>
+            Provee infromación sobre la oferta educativa en México.
+        </p>
+        <a href="OfertaEducativa?wsdl">
+            WSDL
+        </a>
     </body>
 </html>

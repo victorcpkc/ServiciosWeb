@@ -2,4 +2,5 @@
 <endpoints version="2.0" xmlns="http://java.sun.com/xml/ns/jax-ws/ri/runtime">
   <endpoint implementation="Math.CalculadoraService" name="CalculadoraService" url-pattern="/CalculadoraService"/>
   <endpoint implementation="salud.IndiceMasaCorporal" name="IndiceMasaCorporal" url-pattern="/IndiceMasaCorporal"/>
+  <endpoint implementation="edu.uama.pos.carreras.OfertaEducativa" name="OfertaEducativa" url-pattern="/OfertaEducativa"/>
 </endpoints>

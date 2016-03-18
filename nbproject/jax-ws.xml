@@ -7,6 +7,9 @@
     <service name="IndiceMasaCorporal">
       <implementation-class>salud.IndiceMasaCorporal</implementation-class>
     </service>
+    <service name="OfertaEducativa">
+      <implementation-class>edu.uama.pos.carreras.OfertaEducativa</implementation-class>
+    </service>
   </services>
   <clients/>
   <jsr109>false</jsr109>
