@@ -1,12 +1,8 @@
 
 package edu.uama.pos.carreras;
 
-import edu.uama.pos.carreras.ipn.ConsultaOfertaIPN;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * Genera la conexión a la base de datos y prueba las consultas.
@@ -14,7 +10,7 @@ import java.util.logging.Logger;
  */
 public class Main {
     
-    public static Connection createOfertaIPNConneciton(){
+    public static Connection createOfertaIPNConnection(){
         String direccion = "localhost/ofertaIPN";                       // <---- INFORMACION DE SU BASE DE DATOS
         String usuario = "servicios";
         String pass = "poserv";
@@ -26,8 +22,44 @@ public class Main {
         return conn;
     }
 
-    public static Connection createOfertaUACMConneciton(){
+    public static Connection createOfertaUACMConnection(){
         String direccion = "localhost/UACM";                       // <---- INFORMACION DE SU BASE DE DATOS
+        String usuario = "servicios";
+        String pass = "poserv";
+        Connection conn= null;
+        try{
+            Class.forName("com.mysql.jdbc.Driver");
+             conn= DriverManager.getConnection( "jdbc:mysql://"+direccion,usuario,pass);
+        }catch(Exception ex){}
+        return conn;
+    }
+    
+    public static Connection createOfertaUAEMConnection(){
+        String direccion = "localhost/ofertaUAEM";                       // <---- INFORMACION DE SU BASE DE DATOS
+        String usuario = "servicios";
+        String pass = "poserv";
+        Connection conn= null;
+        try{
+            Class.forName("com.mysql.jdbc.Driver");
+             conn= DriverManager.getConnection( "jdbc:mysql://"+direccion,usuario,pass);
+        }catch(Exception ex){}
+        return conn;
+    }
+    
+    public static Connection createOfertaUAMConnection(){
+        String direccion = "localhost/ofertaUAM";                       // <---- INFORMACION DE SU BASE DE DATOS
+        String usuario = "servicios";
+        String pass = "poserv";
+        Connection conn= null;
+        try{
+            Class.forName("com.mysql.jdbc.Driver");
+             conn= DriverManager.getConnection( "jdbc:mysql://"+direccion,usuario,pass);
+        }catch(Exception ex){}
+        return conn;
+    }
+
+    public static Connection createOfertaUNAMConnection(){
+        String direccion = "localhost/ofertaUNAM";                       // <---- INFORMACION DE SU BASE DE DATOS
         String usuario = "servicios";
         String pass = "poserv";
         Connection conn= null;

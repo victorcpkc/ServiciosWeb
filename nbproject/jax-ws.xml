@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jax-ws xmlns="http://www.netbeans.org/ns/jax-ws/1">
   <services>
+    <service name="OfertaEducativa">
+      <implementation-class>edu.uama.pos.carreras.OfertaEducativa</implementation-class>
+    </service>
     <service name="CalculadoraService">
       <implementation-class>Math.CalculadoraService</implementation-class>
     </service>
     <service name="IndiceMasaCorporal">
       <implementation-class>salud.IndiceMasaCorporal</implementation-class>
-    </service>
-    <service name="OfertaEducativa">
-      <implementation-class>edu.uama.pos.carreras.OfertaEducativa</implementation-class>
     </service>
   </services>
   <clients/>

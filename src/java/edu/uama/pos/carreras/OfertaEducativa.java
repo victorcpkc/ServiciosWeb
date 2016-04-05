@@ -18,6 +18,9 @@ package edu.uama.pos.carreras;
 
 import edu.uama.pos.carreras.ipn.ConsultaOfertaIPN;
 import edu.uama.pos.carreras.uacm.ConsultaOfertaUACM;
+import edu.uama.pos.carreras.uaem.ConsultaOfertaUAEM;
+import edu.uama.pos.carreras.uam.ConsultaOfertaUAM;
+import edu.uama.pos.carreras.unam.ConsultaOfertaUNAM;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -35,19 +38,24 @@ import javax.jws.WebParam;
 @WebService(serviceName = "OfertaEducativa")
 public class OfertaEducativa {
     
-    private Class[] opciones = {ConsultaOfertaIPN.class, ConsultaOfertaUACM.class};
+    private Class[] consultas = {ConsultaOfertaIPN.class, ConsultaOfertaUAM.class, 
+        ConsultaOfertaUNAM.class, ConsultaOfertaUAEM.class, ConsultaOfertaUACM.class};
+    
+    private ConsultaOferta[] oferta= {
+            new ConsultaOfertaIPN(Main.createOfertaIPNConnection()),
+            new ConsultaOfertaUAM(Main.createOfertaUAMConnection()),
+            new ConsultaOfertaUNAM(Main.createOfertaUNAMConnection()),
+            new ConsultaOfertaUAEM(Main.createOfertaUAEMConnection()),
+            new ConsultaOfertaUACM(Main.createOfertaUACMConnection())
+        };
 
     @WebMethod
     public int numeroInstituciones(){
-        return opciones.length;
+        return consultas.length;
     }
     
     @WebMethod
     public int numeroProgramasEstudio(@WebParam String siglas){
-        ConsultaOferta[] oferta = {
-            new ConsultaOfertaIPN(Main.createOfertaIPNConneciton()),
-            new ConsultaOfertaUACM(Main.createOfertaUACMConneciton())
-        };
         for(ConsultaOferta consulta: oferta){
             if(consulta.getSiglas().equals(siglas))
                 try {
@@ -62,10 +70,6 @@ public class OfertaEducativa {
     @WebMethod
     public String[] dondeOfrecen(@WebParam String palabra){
         ArrayList<String> opciones = new ArrayList();
-        ConsultaOferta[] oferta = {
-            new ConsultaOfertaIPN(Main.createOfertaIPNConneciton()),
-            new ConsultaOfertaUACM(Main.createOfertaUACMConneciton())
-        };
         for(ConsultaOferta consulta: oferta){
             try {
                 if(consulta.nombreCarreraContiene(palabra))
@@ -81,16 +85,13 @@ public class OfertaEducativa {
     public String[] lasMasDuraderoDeTodos(){
         int max=0;
         LinkedList<Carrera> carreras = new LinkedList();
-        ConsultaOferta[] oferta = {
-            new ConsultaOfertaIPN(Main.createOfertaIPNConneciton()),
-            new ConsultaOfertaUACM(Main.createOfertaUACMConneciton())
-        };
         for(ConsultaOferta consulta: oferta){
             try {
                 List<Carrera> c = consulta.carreraMayorDuracion();
                 if(!c.isEmpty() && max<c.get(0).getDuracion()*c.get(0).getMesesPeriodo()){
                     carreras.clear();
                     carreras.addAll(c);
+                    max = c.get(0).getDuracion()*c.get(0).getMesesPeriodo();
                 }else if(!c.isEmpty() && max==c.get(0).getDuracion()*c.get(0).getMesesPeriodo()){
                     carreras.addAll(c);
                 }
@@ -101,6 +102,49 @@ public class OfertaEducativa {
         ArrayList<String> opciones = new ArrayList();
         for(Carrera c: carreras){
             opciones.add(c.getNombre()+":"+c.getDuracion()*c.getMesesPeriodo()+" meses");
+        }
+        return opciones.toArray(new String[opciones.size()]);
+    }
+    
+    @WebMethod
+    public String[] lasMenosCreditosDeTodos(){
+        int min=21474836;
+        LinkedList<Carrera> carreras = new LinkedList();
+        for(ConsultaOferta consulta: oferta){
+            try {
+                List<Carrera> c = consulta.carreraMenosCreditos();
+                if(!c.isEmpty() && min>c.get(0).getCreditos()) {
+                    carreras.clear();
+                    carreras.addAll(c);
+                    min = c.get(0).getCreditos();
+                } else if(!c.isEmpty() && min==c.get(0).getCreditos()) {
+                    carreras.addAll(c);
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(OfertaEducativa.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        ArrayList<String> opciones = new ArrayList();
+        for(Carrera c: carreras){
+            opciones.add(c.getNombre()+":"+c.getCreditos()+" créditos");
+        }
+        return opciones.toArray(new String[opciones.size()]);
+    }
+    
+    @WebMethod
+    public String[] dondeOfrecen2(@WebParam String[] palabrasClave){
+        ArrayList<String> opciones = new ArrayList();
+        for(ConsultaOferta consulta: oferta){
+            try {
+                for(String palabra: palabrasClave){
+                    if(consulta.nombreCarreraContiene(palabra)){
+                        opciones.add(consulta.getSiglas());
+                        break;
+                    }
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(OfertaEducativa.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         return opciones.toArray(new String[opciones.size()]);
     }
