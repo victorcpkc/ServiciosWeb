@@ -20,6 +20,7 @@ package edu.uama.pos.carreras.ipn;
 import edu.uama.pos.carreras.ConsultaOferta;
 import edu.uama.pos.carreras.Carrera;
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.LinkedList;
@@ -30,13 +31,28 @@ import java.util.List;
  * @author Víctor M. Campuzano Pineda, e-mail: al210331497@alumnos.azc.uam.mx
  */
 public class ConsultaOfertaIPN extends ConsultaOferta{
-
-    public ConsultaOfertaIPN(Connection conn) {
-        super(conn, "IPN", "Instituto Politécnico Nacional");          // <----- CAMBIAR LOS DATOS DE SU INSTITUCIÓN
+    
+    @Override
+    protected final Connection createConnection(){
+        String direccion = "localhost/ofertaIPN";                       // <---- INFORMACION DE SU BASE DE DATOS
+        String usuario = "servicios";
+        String pass = "poserv";
+        Connection conn= null;
+        try{
+            Class.forName("com.mysql.jdbc.Driver");
+            conn= DriverManager.getConnection( "jdbc:mysql://"+direccion,usuario,pass);
+        }catch(Exception ex){}
+        return conn;
+    }
+    
+    public ConsultaOfertaIPN() {
+        super("IPN", "Instituto Politécnico Nacional");          // <----- CAMBIAR LOS DATOS DE SU INSTITUCIÓN
+        this.conn = createConnection();
     }
 
     @Override
     public int numeroCarrerasDisponibles() throws SQLException {
+        verificarConexion();
         //Consulta a la base de datos que cuenta el número de carreras.
         String query="select count(*) from carrera";                   // <----- SOLO TIENEN QUE REEMPLAZAR EL QUERY
         
@@ -51,6 +67,7 @@ public class ConsultaOfertaIPN extends ConsultaOferta{
 
     @Override
     public boolean nombreCarreraContiene(String palabra) throws SQLException {
+        verificarConexion();
         //Consulta a la base de datos obtiene las carreras que contienen la palabra
         String query="select idcarrera from carrera "
                 + "where instr(lower(nombre), lower('"+palabra+"'))>0";// <----- SOLO TIENEN QUE REEMPLAZAR EL QUERY
@@ -63,6 +80,7 @@ public class ConsultaOfertaIPN extends ConsultaOferta{
 
     @Override
     public List<Carrera> carreraMayorDuracion() throws SQLException {
+        verificarConexion();
         List<Carrera> mayor = new LinkedList();
         
         //Consulta a la base de datos que obtiene las carreras con la mayor duración.
@@ -85,6 +103,7 @@ public class ConsultaOfertaIPN extends ConsultaOferta{
 
     @Override
     public List<Carrera> carreraMasCreditos() throws SQLException {
+        verificarConexion();
         List<Carrera> mayor = new LinkedList();
         
         //Consulta a la base de datos que obtiene las carreras con el máximo de créditos.
@@ -107,6 +126,7 @@ public class ConsultaOfertaIPN extends ConsultaOferta{
 
     @Override
     public List<Carrera> carreraMenosCreditos() throws SQLException {
+        verificarConexion();
         List<Carrera> mayor = new LinkedList();
         
         //Consulta a la base de datos que obtiene las carreras con el mínimo de créditos.
@@ -129,6 +149,7 @@ public class ConsultaOfertaIPN extends ConsultaOferta{
 
     @Override
     public List<Carrera> carrerasDisponibles() throws SQLException {
+        verificarConexion();
         List<Carrera> mayor = new LinkedList();
         
         //Consulta a la base de datos para todas las carreras.

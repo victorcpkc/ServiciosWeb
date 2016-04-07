@@ -34,12 +34,10 @@ public abstract class ConsultaOferta {
     
     /**
      * Constructor básico para los adaptadores de consulta.
-     * @param conn Conexión a base de datos JDBC.
      * @param siglas Siglas de la institución que están adapatado.
      * @param institucion Nombre de la institución que están adapatado.
      */
-    public ConsultaOferta(Connection conn, String siglas, String institucion){
-        this.conn = conn;
+    public ConsultaOferta(String siglas, String institucion){
         this.siglas = siglas;
         this.institucion = institucion;
     }
@@ -58,6 +56,14 @@ public abstract class ConsultaOferta {
 
     public void setInstitucion(String institucion) {
         this.institucion = institucion;
+    }
+    
+    protected abstract Connection createConnection();
+    
+    
+    protected void verificarConexion() throws SQLException{
+        if(conn.isClosed())
+            this.conn = createConnection();
     }
     
     /**

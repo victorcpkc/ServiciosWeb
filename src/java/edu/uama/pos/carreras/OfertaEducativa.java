@@ -42,11 +42,11 @@ public class OfertaEducativa {
         ConsultaOfertaUNAM.class, ConsultaOfertaUAEM.class, ConsultaOfertaUACM.class};
     
     private ConsultaOferta[] oferta= {
-            new ConsultaOfertaIPN(Main.createOfertaIPNConnection()),
-            new ConsultaOfertaUAM(Main.createOfertaUAMConnection()),
-            new ConsultaOfertaUNAM(Main.createOfertaUNAMConnection()),
-            new ConsultaOfertaUAEM(Main.createOfertaUAEMConnection()),
-            new ConsultaOfertaUACM(Main.createOfertaUACMConnection())
+            new ConsultaOfertaIPN(),
+            new ConsultaOfertaUAM(),
+            new ConsultaOfertaUNAM(),
+            new ConsultaOfertaUAEM(),
+            new ConsultaOfertaUACM()
         };
 
     @WebMethod

@@ -19,6 +19,7 @@ package edu.uama.pos.carreras.uam;
 import edu.uama.pos.carreras.Carrera;
 import edu.uama.pos.carreras.ConsultaOferta;
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.LinkedList;
@@ -31,12 +32,27 @@ import java.util.List;
 
 public class ConsultaOfertaUAM extends ConsultaOferta{
 
-    public ConsultaOfertaUAM(Connection conn) {
-        super(conn, "UAM", "Universidad Autónoma Metropolitana UAM");          // <----- CAMBIAR LOS DATOS DE SU INSTITUCIÓN
+    public ConsultaOfertaUAM() {
+        super("UAM", "Universidad Autónoma Metropolitana UAM");          // <----- CAMBIAR LOS DATOS DE SU INSTITUCIÓN
+        conn = createConnection();
     }
 
     @Override
+    protected final Connection createConnection(){
+        String direccion = "localhost/ofertaUAM";                       // <---- INFORMACION DE SU BASE DE DATOS
+        String usuario = "servicios";
+        String pass = "poserv";
+        Connection conn= null;
+        try{
+            Class.forName("com.mysql.jdbc.Driver");
+             conn= DriverManager.getConnection( "jdbc:mysql://"+direccion,usuario,pass);
+        }catch(Exception ex){}
+        return conn;
+    }
+    
+    @Override
     public int numeroCarrerasDisponibles() throws SQLException {
+        verificarConexion();
         //Consulta a la base de datos que cuenta el número de carreras.
          String query="SELECT count(*) FROM carreras";                    // <----- SOLO TIENEN QUE REEMPLAZAR EL QUERY
         
@@ -51,6 +67,7 @@ public class ConsultaOfertaUAM extends ConsultaOferta{
 
     @Override
     public boolean nombreCarreraContiene(String palabra) throws SQLException {
+        verificarConexion();
         //Consulta a la base de datos obtiene las carreras que contienen la palabra
                 String query="select id_Carrera from carreras "
                 + "where instr(lower(nombre_carrera), lower('"+palabra+"'))>0";// <----- SOLO TIENEN QUE REEMPLAZAR EL QUERY
@@ -63,6 +80,7 @@ public class ConsultaOfertaUAM extends ConsultaOferta{
 
     @Override
     public List<Carrera> carreraMayorDuracion() throws SQLException {
+        verificarConexion();
         List<Carrera> mayor = new LinkedList();
         
         //Consulta a la base de datos que obtiene las carreras con la mayor duración.
@@ -85,6 +103,7 @@ public class ConsultaOfertaUAM extends ConsultaOferta{
 
     @Override
     public List<Carrera> carreraMasCreditos() throws SQLException {
+        verificarConexion();
         List<Carrera> mayor = new LinkedList();
         
         //Consulta a la base de datos que obtiene las carreras con el máximo de créditos.
@@ -107,6 +126,7 @@ public class ConsultaOfertaUAM extends ConsultaOferta{
 
     @Override
     public List<Carrera> carreraMenosCreditos() throws SQLException {
+        verificarConexion();
         List<Carrera> mayor = new LinkedList();
         
         //Consulta a la base de datos que obtiene las carreras con el mínimo de créditos.
@@ -129,6 +149,7 @@ public class ConsultaOfertaUAM extends ConsultaOferta{
 
     @Override
     public List<Carrera> carrerasDisponibles() throws SQLException {
+        verificarConexion();
         List<Carrera> mayor = new LinkedList();
         
         //Consulta a la base de datos para todas las carreras.
@@ -142,7 +163,7 @@ public class ConsultaOfertaUAM extends ConsultaOferta{
                     result.getString("nombre_carrera"),                     // <-------- Columna con el nombre de la carrera
                     result.getInt("no_creditos"),                      // <-------- Columna con los créditos
                     result.getInt("duracion_promedio"),                      // <-------- Columna con la duración en periodos
-                    12);                                             // <-------- Los periodos en el IPN duran 6 meses
+                    4);                                             // <-------- Los periodos en el IPN duran 6 meses
             mayor.add(carrera);
         } 
         return mayor;

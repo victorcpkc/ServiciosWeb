@@ -675,3 +675,10 @@ UNLOCK TABLES;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
 -- Dump completed on 2016-04-05  0:50:33
+
+-- User privileges
+grant all on ofertaIPN.* to `servicios`@`%` identified by 'poserv';
+grant all on ofertaUNAM.* to `servicios`@`%`;
+grant all on ofertaUAEM.* to `servicios`@`%`;
+grant all on UACM.* to `servicios`@`%`;
+grant all on ofertaUAM.* to `servicios`@`%`;
